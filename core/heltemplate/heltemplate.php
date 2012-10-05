@@ -7,7 +7,7 @@
  *
  * This is open source. Just keep copyright assignement and enjoy.
  *
- * © Hendrik Schaeidt & Steven Zumpe 2011
+ * ? Hendrik Schaeidt & Steven Zumpe 2011
  */
 namespace core\heltemplate;
 use core\helFile;
@@ -295,12 +295,12 @@ class helTemplate extends helFile {
             } else {
                 throw new helCompilerException(0, $this->_sView);
             }
-        } catch(helFileException $e) {
+        } catch(helCompilerException $e) {
             //If debug engine injected
             if($this->_oDebug !== null) {
                 $this->_oDebug->bindExceptionToTrace($e, uniqid());
             } else {
-                echo $e->getText();
+                echo $e->getErrorType() . $e->getAdditionalInfo() . $e->getCustomMessage();
             }
         }
     }
@@ -336,7 +336,7 @@ class helTemplate extends helFile {
         if($sToCompile !== null) {
             $sTagReplace = array("", "");
             if(!($sToCompile = preg_replace($this->_aTagPattern, $sTagReplace, $sToCompile))) {
-                throw new helCompilerException('u', $this->_sView);
+                
             }
             
             $sCompiled = $this->_oController->translate($sToCompile);
