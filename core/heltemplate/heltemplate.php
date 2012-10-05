@@ -171,13 +171,15 @@ class helTemplate extends helFile {
         }
         
         //Methods from interface
-        $this->_sViewPath = $this->_oConfig->getTemplatePath($sSelected);
-        $this->_sTmpPath = $this->_oConfig->getTemplateTmpPath($sSelected);
+        if(isset($sSelected)) {
+            $this->setSelected($sSelected);
+        }
         $this->_sHeltemplateDir = $this->_oConfig->getTemplatePluginPath();
         
         //Set template files
-        $this->_sView = $sView;
-        $this->_sViewFile = $this->_sViewPath . $sView;
+        if(isset($sView)) {
+            $this->setView($sView);
+        }
     }
     
     /**
@@ -196,6 +198,27 @@ class helTemplate extends helFile {
      */
     public function getSelected() {
         return $this->_sSelected;
+    }
+
+    /**
+     * Setter for selected theme
+     *
+     * @param String $sSelected
+     */
+    public function setSelected($sSelected) {
+        $this->_sSelected = $sSelected;
+        $this->_sViewPath = $this->_oConfig->getTemplatePath($sSelected);
+        $this->_sTmpPath = $this->_oConfig->getTemplateTmpPath($sSelected);
+    }
+
+    /**
+     * Setter for view to compile
+     *
+     * @param String $sView
+     */
+    public function setView($sView) {
+        $this->_sView = $sView;
+        $this->_sViewFile = $this->_sViewPath . $sView;
     }
     
     /**
